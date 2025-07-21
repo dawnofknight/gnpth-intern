@@ -43,21 +43,22 @@ export default function HomePage() {
 
   const handleCredentialsSignIn = async () => {
     if (!email || !password) return;
-    setIsLoading(true);
-    try {
+    setIsLoading(false);
+    // try {
       const result = await signIn('admin-credentials', {
         email,
         password,
-        redirect: false,
+        redirect: true,
       });
-      if (result?.error) {
-        alert('Invalid credentials');
-      }
-    } catch (error) {
-      console.error('Sign in error:', error);
-    } finally {
+      console.log('Sign in result:', result);
+    //   if (result?.error) {
+    //     alert('Invalid credentials');
+    //   }
+    // } catch (error) {
+    //   console.error('Sign in error:', error);
+    // } finally {
       setIsLoading(false);
-    }
+    // }
   };
 
   if (status === "loading") {
