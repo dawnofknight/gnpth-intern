@@ -66,11 +66,10 @@ model Surat {
   judul       String
   kategori    String
   departemen  String
-  perihal     String
+  jenis     String
   tujuan      String
   isi         String   @db.Text
   tanggal     DateTime @default(now())
-  status      String   @default("draft")
   createdBy   String
   user        User     @relation(fields: [createdBy], references: [id])
   createdAt   DateTime @default(now())
@@ -78,5 +77,4 @@ model Surat {
 
   @@index([kategori, tanggal])
   @@index([departemen])
-  @@index([status])
 }
