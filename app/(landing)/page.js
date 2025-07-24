@@ -1,6 +1,28 @@
-import React from 'react'
+'use client'
+import { signIn, getSession } from 'next-auth/react'
+import { useEffect, useState } from 'react'
+import { useRouter } from 'next/navigation'
 
-export default function page() {
+export default function SignIn() {
+  const router = useRouter()
+  const [loading, setLoading] = useState(true)
+
+  useEffect(() => {
+    const checkSession = async () => {
+      const session = await getSession()
+      if (session) {
+        router.push('/dashboard-test')
+      } else {
+        setLoading(false)
+      }
+    }
+    checkSession()
+  }, [router])
+
+  const handleGoogleSignIn = () => {
+    signIn('google', { callbackUrl: '/dashboard-test' })
+  }
+
   return (
    <div className="min-h-screen overflow-y-auto">
       <div className="flex items-center justify-center bg-gradient-to-b from-[#FFF9E5] to-[#496A71] min-h-screen">
@@ -25,7 +47,10 @@ export default function page() {
               Easy access to manage your letters anytime
             </p>
            <div className="flex justify-center">
-            <button className="bg-[#5A7D74] hover:bg-[#4b6e65] text-white px-6 py-2 rounded-lg flex items-center gap-2">
+            <button 
+              className="bg-[#5A7D74] hover:bg-[#4b6e65] text-white px-6 py-2 rounded-lg flex items-center gap-2"
+              onClick={handleGoogleSignIn}
+            >
               <img
                 src="/images/Google-Symbol.png"
                 alt="Google logo"
@@ -40,3 +65,4 @@ export default function page() {
     </div>
   )
 }
+
