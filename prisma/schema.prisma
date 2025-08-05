@@ -8,6 +8,7 @@ generator client {
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
+  //directUrl  = env("DIRECT_URL")
 }
 
 model Account {
@@ -41,6 +42,8 @@ model User {
   id            String    @id @default(cuid())
   name          String?
   email         String    @unique
+  username      String    @unique
+  password      String
   emailVerified DateTime?
   image         String?
   role          String    @default("user")
@@ -66,11 +69,10 @@ model Surat {
   judul       String
   kategori    String
   departemen  String
-  perihal     String
+  jenis     String
   tujuan      String
   isi         String   @db.Text
   tanggal     DateTime @default(now())
-  status      String   @default("draft")
   createdBy   String
   user        User     @relation(fields: [createdBy], references: [id])
   createdAt   DateTime @default(now())
@@ -78,5 +80,4 @@ model Surat {
 
   @@index([kategori, tanggal])
   @@index([departemen])
-  @@index([status])
 }
